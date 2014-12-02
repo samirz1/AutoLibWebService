@@ -8,3 +8,10 @@ Configuration du projet :
       Type d'implémentation de la spécification JAX-RS : JERSEY
       (voir web.xml)
       
+      
+Configuration de la base de données :
+
+      Nom d'utilisateur : userjavaee                 CREATE USER 'userjavaee'@'localhost' 
+      Mot de passe : javaee                          IDENTIFIED BY 'javaee';
+      
+      
