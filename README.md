@@ -12,6 +12,6 @@ Configuration du projet :
 Configuration de la base de données :
 
       Nom d'utilisateur : userjavaee                 CREATE USER 'userjavaee'@'localhost' 
-      Mot de passe : javaee                          IDENTIFIED BY 'javaee';
-      
+      Mot de passe      : javaee                     IDENTIFIED BY 'javaee';
+      Driver            : 5.0.8
       
