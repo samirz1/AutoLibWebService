@@ -5,8 +5,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import dao.implementations.DaoFactory;
-
 
 @WebListener
 public class InitialisationDaoFactory implements ServletContextListener {

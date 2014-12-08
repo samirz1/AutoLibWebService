@@ -21,6 +21,11 @@ public class Utilise implements Serializable {
 	// *******************************************
 	public Utilise() {
 		super();
+		this.setClient(new Client());
+		this.setVehicule(new Vehicule());
+		this.setDate(new DateTime());
+		this.setBorneDepart(new Borne());
+		this.setBorneArrivee(new Borne());
 	}
 
 	public Utilise(Vehicule vehicule, Client client, DateTime date,

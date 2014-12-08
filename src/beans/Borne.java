@@ -17,6 +17,7 @@ public class Borne implements Serializable {
 	// *******************************************
 	public Borne() {
 		super();
+		this.setVehicule(new Vehicule());
 	}
 
 	public Borne(Integer idBorne, Integer etatBorne, Integer station,

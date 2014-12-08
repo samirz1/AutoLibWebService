@@ -19,6 +19,8 @@ public class Reservation implements Serializable {
 	// *******************************************
 	public Reservation() {
 		super();
+		this.setClient(new Client());
+		this.setVehicule(new Vehicule());
 	}
 
 	public Reservation(Vehicule vehicule, Client client,
