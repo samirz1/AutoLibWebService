@@ -13,5 +13,5 @@ Configuration de la base de données :
 
       Nom d'utilisateur : userjavaee                 CREATE USER 'userjavaee'@'localhost' 
       Mot de passe      : javaee                     IDENTIFIED BY 'javaee';
-      Driver            : 5.0.8 à mettre dans le dossier "apache-tomcat-8.0.9\lib" 
+      Driver            : mysql-connector-java-5.0.8-bin à mettre dans le dossier "apache-tomcat-8.0.9\lib" 
       
