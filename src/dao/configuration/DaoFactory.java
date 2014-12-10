@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import dao.implementations.ClientDAOimplementation;
+import dao.interfaces.ClientDAO;
 import exception.DaoConfigurationException;
 
 public class DaoFactory {
@@ -28,7 +30,7 @@ public class DaoFactory {
 	public static DaoFactory getInstance() throws DaoConfigurationException{
 		//Chargement du driver
 		try {
-			Class.forName("com.mysql.jdbc.driver");
+			Class.forName("com.mysql.jdbc.Driver");
 		}catch(ClassNotFoundException e){
 			throw new DaoConfigurationException("PROBLEME DU CHARGEMENT DU DRIVER");
 		}
@@ -49,6 +51,8 @@ public class DaoFactory {
 	// *******************************************
 	// GETTERS DES DAO
 	// *******************************************
-	
+	public ClientDAO getClientDAO(){
+		return new ClientDAOimplementation(this);
+	}
 	
 }
