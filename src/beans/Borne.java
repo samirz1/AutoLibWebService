@@ -9,7 +9,7 @@ public class Borne implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer idBorne;
 	private Integer etatBorne;
-	private Integer station;
+	private Station station;
 	private Vehicule vehicule;
 
 	// *******************************************
@@ -18,14 +18,15 @@ public class Borne implements Serializable {
 	public Borne() {
 		super();
 		this.setVehicule(new Vehicule());
+		this.setStation(new Station());
 	}
 
-	public Borne(Integer idBorne, Integer etatBorne, Integer station,
+	public Borne(Integer idBorne, Integer etatBorne, Station station,
 			Vehicule vehicule) {
 		super();
 		this.idBorne = idBorne;
 		this.etatBorne = etatBorne;
-		this.station = station;
+		this.station = new Station();
 		this.vehicule = vehicule;
 	}
 
@@ -48,11 +49,11 @@ public class Borne implements Serializable {
 		this.etatBorne = etatBorne;
 	}
 
-	public Integer getStation() {
+	public Station getStation() {
 		return station;
 	}
 
-	public void setStation(Integer station) {
+	public void setStation(Station station) {
 		this.station = station;
 	}
 
