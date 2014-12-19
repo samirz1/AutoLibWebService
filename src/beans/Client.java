@@ -21,15 +21,6 @@ public class Client implements Serializable {
 		super();
 	}
 
-	public Client(Integer idClient, String nom, String prenom,
-			Date dateNaissance) {
-		super();
-		this.idClient = idClient;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.dateNaissance = dateNaissance;
-	}
-
 	// *******************************************
 	// GETTERS & SETTERS
 	// *******************************************

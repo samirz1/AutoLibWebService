@@ -21,15 +21,6 @@ public class Borne implements Serializable {
 		this.setStation(new Station());
 	}
 
-	public Borne(Integer idBorne, Integer etatBorne, Station station,
-			Vehicule vehicule) {
-		super();
-		this.idBorne = idBorne;
-		this.etatBorne = etatBorne;
-		this.station = new Station();
-		this.vehicule = vehicule;
-	}
-
 	// *******************************************
 	// GETTERS & SETTERS
 	// *******************************************

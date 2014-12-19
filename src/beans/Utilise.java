@@ -27,17 +27,7 @@ public class Utilise implements Serializable {
 		this.setBorneDepart(new Borne());
 		this.setBorneArrivee(new Borne());
 	}
-
-	public Utilise(Vehicule vehicule, Client client, DateTime date,
-			Borne borneDepart, Borne borneArrivee) {
-		super();
-		this.vehicule = vehicule;
-		this.client = client;
-		this.date = date;
-		this.borneDepart = borneDepart;
-		this.borneArrivee = borneArrivee;
-	}
-
+	
 	// *******************************************
 	// GETTERS & SETTERS
 	// *******************************************

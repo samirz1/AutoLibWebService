@@ -23,18 +23,6 @@ public class Station implements Serializable {
 		super();
 	}
 
-	public Station(Integer idStation, Double latitude, Double longitude,
-			String adresse, Integer numero, String ville, Integer codePostal) {
-		super();
-		this.idStation = idStation;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.adresse = adresse;
-		this.numero = numero;
-		this.ville = ville;
-		this.codePostal = codePostal;
-	}
-
 	// *******************************************
 	// GETTERS & SETTERS
 	// *******************************************

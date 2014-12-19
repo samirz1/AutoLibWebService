@@ -19,14 +19,6 @@ public class TypeVehicule implements Serializable {
 		super();
 	}
 
-	public TypeVehicule(Integer idTypeVehicule, String categorie,
-			String typeVehicule) {
-		super();
-		this.idTypeVehicule = idTypeVehicule;
-		this.categorie = categorie;
-		this.typeVehicule = typeVehicule;
-	}
-
 	// *******************************************
 	// GETTERS & SETTERS
 	// *******************************************

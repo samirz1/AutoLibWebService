@@ -23,15 +23,6 @@ public class Reservation implements Serializable {
 		this.setVehicule(new Vehicule());
 	}
 
-	public Reservation(Vehicule vehicule, Client client,
-			DateTime dateReservation, DateTime dateEcheance) {
-		super();
-		this.vehicule = vehicule;
-		this.client = client;
-		this.dateReservation = dateReservation;
-		this.dateEcheance = dateEcheance;
-	}
-
 	// *******************************************
 	// GETTERS & SETTERS
 	// *******************************************

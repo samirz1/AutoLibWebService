@@ -19,19 +19,6 @@ public class Vehicule implements Serializable {
 	// *******************************************
 	// CONSTRUCTEUR
 	// *******************************************
-	public Vehicule(Integer idVehicule, Integer rfid, Integer etatBatterie,
-			String disponible, Double latitude, Double longitude,
-			Integer typeVehicule) {
-		super();
-		this.idVehicule = idVehicule;
-		Rfid = rfid;
-		this.etatBatterie = etatBatterie;
-		this.disponible = disponible;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.typeVehicule = typeVehicule;
-	}
-
 	public Vehicule() {
 		super();
 	}
