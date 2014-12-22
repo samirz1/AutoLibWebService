@@ -1,9 +1,17 @@
 package dao.interfaces;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.configuration.DaoFactory;
+import dao.utilitaire.UtilitaireBaseDonnee;
+import dao.utilitaire.UtilitaireMapping;
 import beans.Borne;
+import beans.Client;
 
 public class BorneDAO extends DAO<Borne> {
 
@@ -37,8 +45,27 @@ public class BorneDAO extends DAO<Borne> {
 
 	@Override
 	public List<Borne> toutRechercher() {
-		// TODO Auto-generated method stub
-		return null;
+		//Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Borne borne =  null;
+		List<Borne> bornes=new ArrayList<Borne>();
+		String sql = new String("SELECT *  FROM Borne");
+		//Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee.initialisationRequetePreparee(connection, sql);
+			resultSet = preparedStatement.executeQuery();
+			//Etape 3 : Récuperation du resultat
+			while(resultSet.next()){
+				borne = UtilitaireMapping.mappingBorne(resultSet);
+				bornes.add(borne);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return bornes;
 	}
 
 }
