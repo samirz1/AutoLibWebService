@@ -30,7 +30,7 @@ public class ServiceVehicule {
 	public String rechercherVehiculeBorne(@QueryParam("idBorne") int idBorne){
 		String retour = new String("");
 		List<Borne> bornes=DaoFactory.getInstance().getBorneDAO().toutRechercher();
-		DaoFactory.getInstance().getVehiculeDAO().rechercher(bornes.get(idBorne));
+		DaoFactory.getInstance().getVehiculeDAO().rechercherVehiculeBorne(bornes.get(idBorne));
 		return retour;
 	}
 	

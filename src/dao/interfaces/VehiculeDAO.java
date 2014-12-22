@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.configuration.DaoFactory;
@@ -13,32 +14,45 @@ import beans.Borne;
 import beans.Client;
 import beans.Vehicule;
 
-public class VehiculeDAO extends DAO<Borne> {
+public class VehiculeDAO extends DAO<Vehicule> {
 
 	public VehiculeDAO(DaoFactory daoFactory) {
 		super(daoFactory);
 	}
 
 	@Override
-	public Boolean creation(Borne objet) {
+	public Boolean creation(Vehicule objet) {
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String sql = new String("INSERT INTO Vehicule (idVehicule,RFID,etatBatterie,Disponibilite,latitude,longitude"
+				+ "type_vehicule,idBorne,etatBorne,station,idVehicule VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,objet);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public Boolean miseAjour(Vehicule objet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean miseAjour(Borne objet) {
+	public Boolean supprimer(Vehicule objet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public Boolean supprimer(Borne objet) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void rechercher(Borne borne) {
+	public void rechercherVehiculeBorne(Borne borne) {
 		// Etape 1 : Declarations
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -62,12 +76,13 @@ public class VehiculeDAO extends DAO<Borne> {
 	}
 
 	@Override
-	public List<Borne> toutRechercher() {
+	public List<Vehicule> toutRechercher() {
 		// Etape 1 : Declarations
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Vehicule vehicule = null;
+		List<Vehicule> vehicules = new ArrayList<Vehicule>();
 		String sql = new String("SELECT *  FROM Vehicule");
 		// Etape 2 : Preparation et execution
 		connection = this.getDaoFactory().getConnection();
@@ -79,11 +94,18 @@ public class VehiculeDAO extends DAO<Borne> {
 			while (resultSet.next()) {
 				vehicule = UtilitaireMapping.mappingVehicule(resultSet);
 				System.out.println(vehicule.getIdVehicule());
+				vehicules.add(vehicule);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return vehicules;
+	}
+
+	@Override
+	public void rechercher(Vehicule objet) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
