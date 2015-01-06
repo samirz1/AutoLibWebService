@@ -2,41 +2,41 @@ package dao.interfaces;
 
 import java.util.List;
 
+import beans.Reservation;
 import dao.configuration.DaoFactory;
-import beans.Borne;
 
-public class ReservationDAO extends DAO<Borne> {
+public class ReservationDAO extends DAO<Reservation> {
 
 	public ReservationDAO(DaoFactory daoFactory) {
 		super(daoFactory);
 	}
 
 	@Override
-	public Boolean creation(Borne objet) {
+	public Boolean creation(Reservation objet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean miseAjour(Borne objet) {
+	public Boolean miseAjour(Reservation objet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean supprimer(Borne objet) {
+	public Boolean supprimer(Reservation objet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void rechercher(Borne objet) {
+	public void rechercher(Reservation objet) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public List<Borne> toutRechercher() {
+	public List<Reservation> toutRechercher() {
 		// TODO Auto-generated method stub
 		return null;
 	}

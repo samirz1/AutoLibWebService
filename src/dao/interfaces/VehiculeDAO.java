@@ -7,12 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import beans.Borne;
+import beans.Vehicule;
 import dao.configuration.DaoFactory;
 import dao.utilitaire.UtilitaireBaseDonnee;
 import dao.utilitaire.UtilitaireMapping;
-import beans.Borne;
-import beans.Client;
-import beans.Vehicule;
 
 public class VehiculeDAO extends DAO<Vehicule> {
 

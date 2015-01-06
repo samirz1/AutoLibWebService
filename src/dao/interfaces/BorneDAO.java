@@ -7,11 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import beans.Borne;
 import dao.configuration.DaoFactory;
 import dao.utilitaire.UtilitaireBaseDonnee;
 import dao.utilitaire.UtilitaireMapping;
-import beans.Borne;
-import beans.Client;
 
 public class BorneDAO extends DAO<Borne> {
 

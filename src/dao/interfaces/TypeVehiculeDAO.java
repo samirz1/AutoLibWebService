@@ -2,41 +2,41 @@ package dao.interfaces;
 
 import java.util.List;
 
+import beans.TypeVehicule;
 import dao.configuration.DaoFactory;
-import beans.Borne;
 
-public class TypeVehiculeDAO extends DAO<Borne> {
+public class TypeVehiculeDAO extends DAO<TypeVehicule> {
 
 	public TypeVehiculeDAO(DaoFactory daoFactory) {
 		super(daoFactory);
 	}
 
 	@Override
-	public Boolean creation(Borne objet) {
+	public Boolean creation(TypeVehicule objet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean miseAjour(Borne objet) {
+	public Boolean miseAjour(TypeVehicule objet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean supprimer(Borne objet) {
+	public Boolean supprimer(TypeVehicule objet) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void rechercher(Borne objet) {
+	public void rechercher(TypeVehicule objet) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public List<Borne> toutRechercher() {
+	public List<TypeVehicule> toutRechercher() {
 		// TODO Auto-generated method stub
 		return null;
 	}
