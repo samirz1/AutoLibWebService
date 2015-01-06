@@ -37,9 +37,9 @@ public class BorneDAO extends DAO<Borne> {
 	}
 
 	@Override
-	public void rechercher(Borne objet) {
+	public Borne rechercher(Borne objet) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override

@@ -20,26 +20,93 @@ public class ClientDAO extends DAO<Client> {
 
 	@Override
 	public Boolean creation(Client objet) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("CREATION");
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		int resultat = 0;
+		String sql = new String(
+				"INSERT INTO Client(nom, prenom, date_naissance) "
+						+ " VALUES(?,?,?)");
+		System.out.println(sql);
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,
+							objet.getNom(), objet.getPrenom(),
+							objet.getDateNaissance());
+			resultat = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(resultat);
+		return resultat == 1;
 	}
 
 	@Override
 	public Boolean miseAjour(Client objet) {
-		// TODO Auto-generated method stub
-		return null;
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		int resultat = 0;
+		String sql = new String(
+				"UPDATE client SET nom = ? , prenom = ? , date_naissance = ?  WHERE idClient = ?");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,
+							objet.getNom(), objet.getPrenom(),
+							objet.getDateNaissance(), objet.getIdClient());
+			resultat = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultat == 1;
 	}
 
 	@Override
 	public Boolean supprimer(Client objet) {
-		// TODO Auto-generated method stub
-		return null;
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		int resultat = 0;
+		String sql = new String("DELETE FROM client WHERE idClient = ?");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,
+							objet.getIdClient());
+			resultat = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultat == 1;
 	}
 
 	@Override
-	public void rechercher(Client objet) {
-		// TODO Auto-generated method stub
-
+	public Client rechercher(Client objet) {
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Client client = null;
+		String sql = new String("SELECT * FROM client WHERE idClient = ?");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,
+							objet.getIdClient());
+			resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+			client = UtilitaireMapping.mappingClient(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return client;
 	}
 
 	@Override
@@ -94,9 +161,7 @@ public class ClientDAO extends DAO<Client> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return client != null;
-
 	}
 
 }

@@ -30,9 +30,9 @@ public class UtiliseDAO extends DAO<Utilise> {
 	}
 
 	@Override
-	public void rechercher(Utilise objet) {
+	public Utilise rechercher(Utilise objet) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override

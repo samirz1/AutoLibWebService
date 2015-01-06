@@ -18,7 +18,7 @@ public abstract class DAO<T> {
 
 	public abstract Boolean supprimer(T objet);
 
-	public abstract void rechercher(T objet);
+	public abstract T rechercher(T objet);
 
 	public abstract List<T> toutRechercher();
 

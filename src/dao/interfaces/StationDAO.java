@@ -103,9 +103,9 @@ public class StationDAO extends DAO<Station> {
 	}
 
 	@Override
-	public void rechercher(Station objet) {
+	public Station rechercher(Station objet) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override

@@ -30,9 +30,9 @@ public class ReservationDAO extends DAO<Reservation> {
 	}
 
 	@Override
-	public void rechercher(Reservation objet) {
+	public Reservation rechercher(Reservation objet) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override

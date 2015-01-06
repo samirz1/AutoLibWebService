@@ -102,9 +102,9 @@ public class VehiculeDAO extends DAO<Vehicule> {
 	}
 
 	@Override
-	public void rechercher(Vehicule objet) {
+	public Vehicule rechercher(Vehicule objet) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }

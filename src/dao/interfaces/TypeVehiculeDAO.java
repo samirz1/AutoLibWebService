@@ -30,9 +30,9 @@ public class TypeVehiculeDAO extends DAO<TypeVehicule> {
 	}
 
 	@Override
-	public void rechercher(TypeVehicule objet) {
+	public TypeVehicule rechercher(TypeVehicule objet) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override
