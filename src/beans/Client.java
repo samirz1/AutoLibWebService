@@ -1,9 +1,11 @@
 package beans;
 
 import java.io.Serializable;
+
 import java.sql.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
 @XmlRootElement
 public class Client implements Serializable {
 

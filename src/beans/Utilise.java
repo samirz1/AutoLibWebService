@@ -2,8 +2,11 @@ package beans;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.joda.time.DateTime;
 
+@XmlRootElement
 public class Utilise implements Serializable {
 
 	// *******************************************
@@ -27,7 +30,7 @@ public class Utilise implements Serializable {
 		this.setBorneDepart(new Borne());
 		this.setBorneArrivee(new Borne());
 	}
-	
+
 	// *******************************************
 	// GETTERS & SETTERS
 	// *******************************************

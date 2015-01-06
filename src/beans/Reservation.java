@@ -1,8 +1,12 @@
 package beans;
 
 import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.joda.time.DateTime;
 
+@XmlRootElement
 public class Reservation implements Serializable {
 
 	// *******************************************
