@@ -29,14 +29,15 @@ public class StationDAO extends DAO<Station> {
 		
 		// requête d'insertion de l'objet
 		String sql = "INSERT INTO " + TABLE
-				+ " (id, latitude, longitude, adresse, numero, ville)"
+				+ " (id, latitude, longitude, adresse, numero, ville, code_postal)"
 				+ " VALUES ("
 				+ (objet.getIdStation() == null ? "NULL" : "'" + objet.getIdStation() + "'") + ","
 				+ " '" + objet.getLatitude() + "',"
 				+ " '" + objet.getLongitude() + "',"
 				+ " '" + objet.getAdresse() + "',"
 				+ " '" + objet.getNumero() + "',"
-				+ " '" + objet.getVille() + "'"
+				+ " '" + objet.getVille() + "',"
+				+ " '" + objet.getCodePostal() + "'"
 				+ ")";
 
 		try {
@@ -63,7 +64,8 @@ public class StationDAO extends DAO<Station> {
 				+ " longitude = '" + objet.getLongitude() + "',"
 				+ " adresse = '" + objet.getAdresse() + "',"
 				+ " numero = '" + objet.getNumero() + "',"
-				+ " ville = '" + objet.getVille() + "'"
+				+ " ville = '" + objet.getVille() + "',"
+				+ " code_postal = '" + objet.getCodePostal() + "'"
 				+ " WHERE " + ID + " = '" + objet.getIdStation() + "'"
 				+ " LIMIT 1";
 
@@ -104,20 +106,44 @@ public class StationDAO extends DAO<Station> {
 
 	@Override
 	public Station rechercher(Station objet) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Station> ls = rechercheAvancee(objet);
+		if(ls.size() > 0) {
+			return ls.get(0);
+		} else {
+			return null;
+		}
 	}
-
-	@Override
-	public List<Station> toutRechercher() {
-
+	
+	/**
+	 * Recherche avancée de stations
+	 * @param objet
+	 * @return
+	 */
+	public List<Station> rechercheAvancee(Station objet) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Station station =  null;
-		List<Station> stations =new ArrayList<Station>();
+		List<Station> stations = new ArrayList<Station>();
 		
-		String sql = "SELECT * FROM " + TABLE;
+		String sql = "SELECT * FROM " + TABLE + " WHERE 1";
+		
+		if(objet != null) {
+			if(objet.getIdStation() != 0)
+				sql += " AND " + ID + " = '" + objet.getIdStation() + "'";
+			if(objet.getAdresse() != null && objet.getAdresse().length() > 0)
+				sql += " AND adresse = '" + objet.getAdresse() + "'";
+			if(objet.getCodePostal() != null && objet.getCodePostal() > 0)
+				sql += " AND code_postal = '" + objet.getCodePostal() + "'";
+			if(objet.getLatitude() != null && objet.getLatitude() > 0)
+				sql += " AND latitude = '" + objet.getLatitude() + "'";
+			if(objet.getLongitude() != null && objet.getLongitude() > 0)
+				sql += " AND longitude = '" + objet.getLongitude() + "'";
+			if(objet.getNumero() != null && objet.getNumero() > 0)
+				sql += " AND numero = '" + objet.getNumero() + "'";
+			if(objet.getVille() != null && objet.getVille().length() > 0)
+				sql += " AND ville = '" + objet.getVille() + "'";
+		}
 
 		try {
 			connexion = this.getDaoFactory().getConnection();
@@ -132,6 +158,52 @@ public class StationDAO extends DAO<Station> {
 			e.printStackTrace();
 		}		
 		return stations;
+	}
+	
+	/**
+	 * Rechercher une liste de stations à partir
+	 * d'un mot clé (soit l'id, soit la ville, soit l'adresse)
+	 * @param keyword
+	 * @return liste des stations
+	 */
+	public List<Station> rechercherMotCle(String keyword) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Station station =  null;
+		List<Station> stations = new ArrayList<Station>();
+		
+		String sql = "SELECT * FROM " + TABLE;
+		
+		if(keyword != null && keyword.length() > 0) {
+			sql += " WHERE " + ID + " = '" + keyword + "'";
+			sql += " OR adresse LIKE '%" + keyword + "%'";
+			sql += " OR ville LIKE '%" + keyword + "%'";
+			sql += " OR code_postal = '" + keyword + "'";
+		}
+
+		try {
+			connexion = this.getDaoFactory().getConnection();
+			preparedStatement = UtilitaireBaseDonnee.initialisationRequetePreparee(connexion, sql);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()){
+				station = UtilitaireMapping.mappingStation(resultSet);
+				stations.add(station);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return stations;
+	}
+
+	/**
+	 * Rechercher toutes les stations de la base de données
+	 * @return liste des stations
+	 */
+	@Override
+	public List<Station> toutRechercher() {
+		return rechercherMotCle(null);
 	}
 
 }
