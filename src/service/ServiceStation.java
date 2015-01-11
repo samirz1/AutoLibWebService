@@ -8,12 +8,12 @@ import javax.ws.rs.core.MediaType;
 import beans.*;
 import dao.configuration.DaoFactory;
 
-@Path("serviceStation")
+@Path("/serviceStation")
 public class ServiceStation {
 
 	@GET
 	@Path(value="/toutRechercher")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Station> toutRechercher(){
 		List<Station> stations = DaoFactory.getInstance().getStationDAO().toutRechercher();
 		System.out.println("Stations : " + stations.toString() + " - " + stations.size());

@@ -54,9 +54,9 @@ public class ServiceClient {
 	}
 
 	@GET
-	@Path(value = "/miseAjour/{idClient}/{nom}/{prenom}/{dateNaissance}")
+	@Path(value = "/modifier/{idClient}/{nom}/{prenom}/{dateNaissance}")
 	@Produces(MediaType.APPLICATION_XML)
-	public MyBoolean miseAjour(@PathParam(value = "idClient") String idClient,
+	public MyBoolean modifier(@PathParam(value = "idClient") String idClient,
 			@PathParam(value = "nom") String nom,
 			@PathParam(value = "prenom") String prenom,
 			@PathParam(value = "dateNaissance") String dateNaissance) {
@@ -90,7 +90,7 @@ public class ServiceClient {
 	@Path(value = "/rechercher/{idClient}")
 	@Produces(MediaType.APPLICATION_XML)
 	public Client rechercher(@PathParam(value = "idClient") String idClient) {
-		System.out.println("SUP");
+		System.out.println("RECH");
 		Client client = new Client();
 		client.setIdClient(Integer.valueOf(idClient));
 		return DaoFactory.getInstance().getClientDAO().rechercher(client);
