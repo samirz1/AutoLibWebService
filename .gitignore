@@ -1,0 +1,9 @@
+.classpath
+base_autolib_&_data.sql
+
+# Classes binaires ignorées
+build/
+
+Thumbs.db
+.settings/
+*.class
