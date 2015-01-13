@@ -67,4 +67,61 @@ public class ServiceStation {
 		return stations;
 	}
 	
+	@GET
+	@Path(value="/ajouter/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public MyBoolean creation(
+			@QueryParam("ville") String ville,
+			@QueryParam("adresse") String adresse,
+			@QueryParam("codePostal") int codePostal,
+			@QueryParam("numero") int numero,
+			@QueryParam("latitude") double latitude,
+			@QueryParam("longitude") double longitude){
+		Station s = new Station();
+		s.setVille(ville);
+		s.setAdresse(adresse);
+		s.setNumero(numero);
+		s.setCodePostal(codePostal);
+		s.setNumero(numero);
+		s.setLatitude(latitude);
+		s.setLongitude(longitude);
+		
+		return (DaoFactory.getInstance().getStationDAO().creation(s) ? new MyBoolean(true) : new MyBoolean(false));
+	}
+	
+	@GET
+	@Path(value="/modifier/{id}/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public MyBoolean modification(
+			@PathParam("id") int id,
+			@QueryParam("ville") String ville,
+			@QueryParam("adresse") String adresse,
+			@QueryParam("codePostal") int codePostal,
+			@QueryParam("numero") int numero,
+			@QueryParam("latitude") double latitude,
+			@QueryParam("longitude") double longitude){
+		Station s = new Station();
+		s.setIdStation(id);
+		s.setVille(ville);
+		s.setAdresse(adresse);
+		s.setNumero(numero);
+		s.setCodePostal(codePostal);
+		s.setNumero(numero);
+		s.setLatitude(latitude);
+		s.setLongitude(longitude);
+		
+		return (DaoFactory.getInstance().getStationDAO().miseAjour(s) ? new MyBoolean(true) : new MyBoolean(false));
+	}
+	
+	@GET
+	@Path(value="/supprimer/{id}/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public MyBoolean suppression(
+			@PathParam("id") int id){
+		Station s = new Station();
+		s.setIdStation(id);
+		
+		return (DaoFactory.getInstance().getStationDAO().supprimer(s) ? new MyBoolean(true) : new MyBoolean(false));
+	}
+	
 }
