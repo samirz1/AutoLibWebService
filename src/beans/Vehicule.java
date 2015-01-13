@@ -105,7 +105,7 @@ public class Vehicule implements Serializable {
 
 	public static Integer generateRFID() {
 		// TODO Auto-generated method stub
-		return null;
+		return 22;
 	}
 	
 	

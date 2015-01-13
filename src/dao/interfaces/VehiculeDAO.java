@@ -40,6 +40,7 @@ public class VehiculeDAO extends DAO<Vehicule> {
 				station = UtilitaireMapping.mappingStation(resultSetStation);
 			}
 		} catch (SQLException e) {
+			System.out.println(sql);
 			e.printStackTrace();
 			return false;
 		}
@@ -50,9 +51,11 @@ public class VehiculeDAO extends DAO<Vehicule> {
 				+ "type_vehicule) VALUES (?,?,?,?,?,?)");
 		try {
 			preparedStatement = UtilitaireBaseDonnee
-					.initialisationRequetePreparee(connection, sql,objet);
+					.initialisationRequetePreparee(connection, sql,objet.getRfid(),objet.getEtatBatterie(),
+							objet.getDisponible(),objet.getLatitude(),objet.getLongitude(),objet.getTypeVehicule());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
+			System.out.println(sql);
 			e.printStackTrace();
 			return false;
 		}
@@ -92,19 +95,22 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		objet.setLatitude(station.getLatitude());
 		objet.setLongitude(station.getLongitude());
 		//MAJ dans la table vehicule
-		sql = new String("UPDATE Vehicule SET RFID = ? AND etatBatterie = ? AND Disponibilite = ?"
-				+ "AND latitude = ? AND longitude = ? AND type_vehicule = ?"
+		sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
+				+ ", latitude = ? , longitude = ? , type_vehicule = ? "
 				+ "WHERE idVehicule = ?");
 		try {
 			preparedStatement = UtilitaireBaseDonnee
-					.initialisationRequetePreparee(connection, sql,objet);
+					.initialisationRequetePreparee(connection, sql,objet.getRfid(),objet.getEtatBatterie(),
+							objet.getDisponible(),objet.getLatitude(),objet.getLongitude(),objet.getTypeVehicule(),
+							objet.getIdVehicule());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
+			System.out.println(sql);
 			e.printStackTrace();
 			return false;
 		}
 		
-		return null;
+		return true;
 	}
 
 	@Override
@@ -143,7 +149,6 @@ public class VehiculeDAO extends DAO<Vehicule> {
 			// Etape 3 : Récuperation du resultat
 			while (resultSet.next()) {
 				vehicule = UtilitaireMapping.mappingVehicule(resultSet);
-				System.out.println(vehicule.getIdVehicule());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,7 +174,6 @@ public class VehiculeDAO extends DAO<Vehicule> {
 			// Etape 3 : Récuperation du resultat
 			while (resultSet.next()) {
 				vehicule = UtilitaireMapping.mappingVehicule(resultSet);
-				System.out.println(vehicule.getIdVehicule());
 				vehicules.add(vehicule);
 			}
 		} catch (SQLException e) {
@@ -195,7 +199,6 @@ public class VehiculeDAO extends DAO<Vehicule> {
 			// Etape 3 : Récuperation du resultat
 			while (resultSet.next()) {
 				vehicule = UtilitaireMapping.mappingVehicule(resultSet);
-				System.out.println(vehicule.getIdVehicule());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
