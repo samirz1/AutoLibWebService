@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,33 +17,30 @@ public class ServiceVehicule {
 	
 	@GET
 	@Path(value="/toutRechercher")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String toutRechercher(){
-		String retour = new String("");
-		DaoFactory.getInstance().getVehiculeDAO().toutRechercher();
-		return retour;
+	@Produces(MediaType.APPLICATION_XML)
+	public List<Vehicule> toutRechercher(){
+		System.out.println("Tout rechercher véhicule");
+		 return DaoFactory.getInstance().getVehiculeDAO().toutRechercher();
 	}
 	
 	@GET
 	@Path(value="/rechercher/{idVehicule}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String rechercher(@PathParam(value = "idVehicule") String idVehicule){
-		String retour = new String("");
+	@Produces(MediaType.APPLICATION_XML)
+	public Vehicule rechercher(@PathParam(value = "idVehicule") String idVehicule){
 		Vehicule vehicule = new Vehicule();
 		vehicule.setIdBorne(Integer.parseInt(idVehicule));
-		DaoFactory.getInstance().getVehiculeDAO().rechercher(vehicule);
-		return retour;
+		System.out.println("Rechercher véhicule");
+		return DaoFactory.getInstance().getVehiculeDAO().rechercher(vehicule);
 	}
 	
 	@GET
 	@Path(value="/rechercherVehiculeBorne/{idBorne}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String rechercherVehiculeBorne(@PathParam(value = "idBorne") String idBorne){
-		String retour = new String("");
+	@Produces(MediaType.APPLICATION_XML)
+	public Vehicule rechercherVehiculeBorne(@PathParam(value = "idBorne") String idBorne){
 		Vehicule vehicule = new Vehicule();
 		vehicule.setIdBorne(Integer.parseInt(idBorne));
-		DaoFactory.getInstance().getVehiculeDAO().rechercherVehiculeBorne(vehicule);
-		return retour;
+		System.out.println("Rechercher véhicule borne");
+		return DaoFactory.getInstance().getVehiculeDAO().rechercherVehiculeBorne(vehicule);
 	}
 	
 	
@@ -51,7 +50,7 @@ public class ServiceVehicule {
 	public MyBoolean creation(@PathParam(value = "type_vehicule") String type_vehicule,
 			@PathParam(value = "station") String station,
 			@PathParam(value = "idBorne") String idBorne) {
-		System.out.println("CREATION");
+		System.out.println("Création véhicule");
 		Vehicule vehicule = new Vehicule();
 		vehicule.setTypeVehicule(Integer.parseInt(type_vehicule));
 		vehicule.setStation(Integer.parseInt(station));
@@ -71,7 +70,7 @@ public class ServiceVehicule {
 			@PathParam(value = "etatBatterie") String etatBatterie,
 			@PathParam(value = "Disponibilite") String Disponibilite,
 			@PathParam(value = "type_vehicule") String type_vehicule) {
-		System.out.println("MAJ");
+		System.out.println("MAJ véhicule");
 		Vehicule vehicule = new Vehicule();
 		//On met a jour l'affectation a la borne si besoin
 		if(Integer.parseInt(nouveauIdBorne) != Integer.parseInt(ancienIdBorne)){
@@ -93,7 +92,7 @@ public class ServiceVehicule {
 	@Path(value = "/supprimer/{idVehicule}")
 	@Produces(MediaType.APPLICATION_XML)
 	public MyBoolean supprimer(@PathParam(value = "idVehicule") String idVehicule) {
-		System.out.println("SUP");
+		System.out.println("Suppression véhicule");
 		Vehicule vehicule = new Vehicule();
 		vehicule.setIdVehicule(Integer.parseInt(idVehicule));
 		return (DaoFactory.getInstance().getVehiculeDAO().supprimer(vehicule)) ? new MyBoolean(
