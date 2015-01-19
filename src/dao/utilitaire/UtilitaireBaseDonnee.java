@@ -14,8 +14,9 @@ public class UtilitaireBaseDonnee {
 			Connection connection, String sql, Object... objets)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		for (int i = 0; i < objets.length; i++)
+		for (int i = 0; i < objets.length; i++){
 			preparedStatement.setObject(i+1 , objets[i]);
+		}
 		return preparedStatement;
 	}
 

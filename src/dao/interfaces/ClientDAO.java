@@ -138,18 +138,18 @@ public class ClientDAO extends DAO<Client> {
 	/**
 	 * Connexion Client
 	 */
-	public boolean connexionClient(String pseudo) {
+	public boolean connexionClient(String pseudo, String pwd) {
 		// Etape 1 : Declaration
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Client client = null;
-		String sql = new String("SELECT *  FROM Client WHERE NOM LIKE ?");
+		String sql = new String("SELECT *  FROM Client WHERE login LIKE ? AND pwd LIKE ?");
 		// Etape 2 : Preparation et execution
 		connection = this.getDaoFactory().getConnection();
 		try {
 			preparedStatement = UtilitaireBaseDonnee
-					.initialisationRequetePreparee(connection, sql, pseudo);
+					.initialisationRequetePreparee(connection, sql, pseudo,pwd);
 			resultSet = preparedStatement.executeQuery();
 			// Etape 3 : Récuperation du resultat
 			if (resultSet != null) {

@@ -18,6 +18,8 @@ public class Vehicule implements Serializable {
 	private Double latitude;
 	private Double longitude;
 	private Integer typeVehicule;
+	private Integer idBorne;
+	private Integer station;
 
 	// *******************************************
 	// CONSTRUCTEUR
@@ -84,4 +86,28 @@ public class Vehicule implements Serializable {
 	public void setTypeVehicule(Integer typeVehicule) {
 		this.typeVehicule = typeVehicule;
 	}
+
+	public Integer getIdBorne() {
+		return idBorne;
+	}
+
+	public void setIdBorne(Integer idBorne) {
+		this.idBorne = idBorne;
+	}
+
+	public Integer getStation() {
+		return station;
+	}
+
+	public void setStation(Integer station) {
+		this.station = station;
+	}
+
+	public static Integer generateRFID() {
+		// TODO Auto-generated method stub
+		return 22;
+	}
+	
+	
+	
 }

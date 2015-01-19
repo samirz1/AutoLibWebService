@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import beans.Borne;
+import beans.Station;
 import beans.Vehicule;
 import dao.configuration.DaoFactory;
 import dao.utilitaire.UtilitaireBaseDonnee;
@@ -24,13 +24,46 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		// Etape 1 : Declarations
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		String sql = new String("INSERT INTO Vehicule (idVehicule,RFID,etatBatterie,Disponibilite,latitude,longitude"
-				+ "type_vehicule,idBorne,etatBorne,station,idVehicule VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-		// Etape 2 : Preparation et execution
+		Station station = null;
+		// Preparation de l'objet
+		objet.setRfid(Vehicule.generateRFID());
+		objet.setEtatBatterie(100);
+		objet.setDisponible("LIBRE");
+		
+		String sql = new String("SELECT *  FROM Station WHERE idStation = ? ");
 		connection = this.getDaoFactory().getConnection();
 		try {
 			preparedStatement = UtilitaireBaseDonnee
-					.initialisationRequetePreparee(connection, sql,objet);
+					.initialisationRequetePreparee(connection, sql,objet.getStation());
+			ResultSet resultSetStation = preparedStatement.executeQuery();
+			while (resultSetStation.next()) {
+				station = UtilitaireMapping.mappingStation(resultSetStation);
+			}
+		} catch (SQLException e) {
+			System.out.println(sql);
+			e.printStackTrace();
+			return false;
+		}
+		objet.setLatitude(station.getLatitude());
+		objet.setLongitude(station.getLongitude());
+		//Insertion dans la table vehicule
+		sql = new String("INSERT INTO Vehicule (RFID,etatBatterie,Disponibilite,latitude,longitude,"
+				+ "type_vehicule) VALUES (?,?,?,?,?,?)");
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,objet.getRfid(),objet.getEtatBatterie(),
+							objet.getDisponible(),objet.getLatitude(),objet.getLongitude(),objet.getTypeVehicule());
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(sql);
+			e.printStackTrace();
+			return false;
+		}
+		//Affectation du véhicule à la borne
+		sql = new String("UPDATE Borne SET idVehicule = ? WHERE idBorne = ? ");
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,objet.getIdVehicule(),objet.getIdBorne());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -41,17 +74,66 @@ public class VehiculeDAO extends DAO<Vehicule> {
 
 	@Override
 	public Boolean miseAjour(Vehicule objet) {
-		// TODO Auto-generated method stub
-		return null;
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Station station = null;
+		
+		String sql = new String("SELECT *  FROM Station WHERE idStation = ? ");
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,objet.getStation());
+			ResultSet resultSetStation = preparedStatement.executeQuery();
+			while (resultSetStation.next()) {
+				station = UtilitaireMapping.mappingStation(resultSetStation);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		objet.setLatitude(station.getLatitude());
+		objet.setLongitude(station.getLongitude());
+		//MAJ dans la table vehicule
+		sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
+				+ ", latitude = ? , longitude = ? , type_vehicule = ? "
+				+ "WHERE idVehicule = ?");
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,objet.getRfid(),objet.getEtatBatterie(),
+							objet.getDisponible(),objet.getLatitude(),objet.getLongitude(),objet.getTypeVehicule(),
+							objet.getIdVehicule());
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(sql);
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
 	public Boolean supprimer(Vehicule objet) {
-		// TODO Auto-generated method stub
-		return null;
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		int resultat = 0;
+		String sql = new String("DELETE FROM vehicule WHERE idVehicule = ?");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,
+							objet.getIdVehicule());
+			resultat = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultat == 1;
 	}
 
-	public void rechercherVehiculeBorne(Borne borne) {
+	public Vehicule rechercherVehiculeBorne(Vehicule objet) {
 		// Etape 1 : Declarations
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -62,16 +144,16 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		connection = this.getDaoFactory().getConnection();
 		try {
 			preparedStatement = UtilitaireBaseDonnee
-					.initialisationRequetePreparee(connection, sql,borne.getIdBorne());
+					.initialisationRequetePreparee(connection, sql,objet.getIdBorne());
 			resultSet = preparedStatement.executeQuery();
 			// Etape 3 : RÃ©cuperation du resultat
 			while (resultSet.next()) {
 				vehicule = UtilitaireMapping.mappingVehicule(resultSet);
-				System.out.println(vehicule.getIdVehicule());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return vehicule;
 	}
 
 	@Override
@@ -92,7 +174,6 @@ public class VehiculeDAO extends DAO<Vehicule> {
 			// Etape 3 : RÃ©cuperation du resultat
 			while (resultSet.next()) {
 				vehicule = UtilitaireMapping.mappingVehicule(resultSet);
-				System.out.println(vehicule.getIdVehicule());
 				vehicules.add(vehicule);
 			}
 		} catch (SQLException e) {
@@ -103,8 +184,53 @@ public class VehiculeDAO extends DAO<Vehicule> {
 
 	@Override
 	public Vehicule rechercher(Vehicule objet) {
-		// TODO Auto-generated method stub
-		return null;
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Vehicule vehicule = null;
+		String sql = new String("SELECT *  FROM Vehicule WHERE idVehicule = ?");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,objet.getIdVehicule());
+			resultSet = preparedStatement.executeQuery();
+			// Etape 3 : RÃ©cuperation du resultat
+			while (resultSet.next()) {
+				vehicule = UtilitaireMapping.mappingVehicule(resultSet);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return vehicule;
+	}
+	
+	public Boolean changeAffectation(Integer idVehicule, Integer ancienIdBorne,
+			Integer nouveauIdBorne){
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		//Suppression de l'anciene affectation 
+		String sql = new String("UPDATE Borne SET idVehicule = NULL WHERE idBorne = ? ");
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,ancienIdBorne);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		//Ajout de la nouvelle affectation du véhicule à la borne
+		sql = new String("UPDATE Borne SET idVehicule = ? WHERE idBorne = ? ");
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,idVehicule,nouveauIdBorne);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 }

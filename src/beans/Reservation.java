@@ -1,10 +1,9 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.joda.time.DateTime;
 
 @XmlRootElement
 public class Reservation implements Serializable {
@@ -15,8 +14,8 @@ public class Reservation implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Vehicule vehicule;
 	private Client client;
-	private DateTime dateReservation;
-	private DateTime dateEcheance;
+	private Date dateReservation;
+	private Date dateEcheance;
 
 	// *******************************************
 	// CONSTRUCTEUR
@@ -46,19 +45,19 @@ public class Reservation implements Serializable {
 		this.client = client;
 	}
 
-	public DateTime getDateReservation() {
+	public Date getDateReservation() {
 		return dateReservation;
 	}
 
-	public void setDateReservation(DateTime dateReservation) {
+	public void setDateReservation(Date dateReservation) {
 		this.dateReservation = dateReservation;
 	}
 
-	public DateTime getDateEcheance() {
+	public Date getDateEcheance() {
 		return dateEcheance;
 	}
 
-	public void setDateEcheance(DateTime dateEcheance) {
+	public void setDateEcheance(Date dateEcheance) {
 		this.dateEcheance = dateEcheance;
 	}
 

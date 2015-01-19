@@ -29,7 +29,7 @@ public class StationDAO extends DAO<Station> {
 		
 		// requête d'insertion de l'objet
 		String sql = "INSERT INTO " + TABLE
-				+ " (id, latitude, longitude, adresse, numero, ville, code_postal)"
+				+ " (" + ID + ", latitude, longitude, adresse, numero, ville, code_postal)"
 				+ " VALUES ("
 				+ (objet.getIdStation() == null ? "NULL" : "'" + objet.getIdStation() + "'") + ","
 				+ " '" + objet.getLatitude() + "',"
@@ -43,7 +43,7 @@ public class StationDAO extends DAO<Station> {
 		try {
 			connexion = this.getDaoFactory().getConnection();
 			preparedStatement = UtilitaireBaseDonnee.initialisationRequetePreparee(connexion, sql);
-			preparedStatement.executeQuery();
+			preparedStatement.executeUpdate();
 			return true;
 			
 		} catch (SQLException e) {
@@ -72,7 +72,7 @@ public class StationDAO extends DAO<Station> {
 		try {
 			connexion = this.getDaoFactory().getConnection();
 			preparedStatement = UtilitaireBaseDonnee.initialisationRequetePreparee(connexion, sql);
-			preparedStatement.executeQuery();
+			preparedStatement.executeUpdate();
 			return true;
 			
 		} catch (SQLException e) {
@@ -95,7 +95,7 @@ public class StationDAO extends DAO<Station> {
 		try {
 			connexion = this.getDaoFactory().getConnection();
 			preparedStatement = UtilitaireBaseDonnee.initialisationRequetePreparee(connexion, sql);
-			preparedStatement.executeQuery();
+			preparedStatement.executeUpdate();
 			return true;
 			
 		} catch (SQLException e) {

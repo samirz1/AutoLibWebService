@@ -16,10 +16,11 @@ import dao.configuration.DaoFactory;
 public class ServiceClient {
 
 	@GET
-	@Path(value = "/connexionClient/{pseudo}")
+	@Path(value = "/connexionClient/{pseudo}/{pwd}")
 	@Produces(MediaType.APPLICATION_XML)
-	public MyBoolean connexionClient(@PathParam(value = "pseudo") String pseudo) {
-		return (DaoFactory.getInstance().getClientDAO().connexionClient(pseudo)) ? new MyBoolean(
+	public MyBoolean connexionClient(@PathParam(value = "pseudo") String pseudo,@PathParam(value = "pwd") String pwd) {
+		System.out.println("connexion en cours..");
+		return (DaoFactory.getInstance().getClientDAO().connexionClient(pseudo,pwd)) ? new MyBoolean(
 				true) : new MyBoolean(false);
 	}
 
@@ -93,7 +94,9 @@ public class ServiceClient {
 		System.out.println("RECH");
 		Client client = new Client();
 		client.setIdClient(Integer.valueOf(idClient));
+		System.out.println(client.getNom());
 		return DaoFactory.getInstance().getClientDAO().rechercher(client);
+	
 	}
 
 }
