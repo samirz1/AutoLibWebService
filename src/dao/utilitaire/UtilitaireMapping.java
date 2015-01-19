@@ -69,8 +69,8 @@ public class UtilitaireMapping {
 		Reservation reservation = new Reservation();
 		reservation.getVehicule().setIdVehicule(resultSet.getInt("vehicule"));
 		reservation.getClient().setIdClient(resultSet.getInt("client"));
-		reservation.setDateReservation(new DateTime(resultSet.getTimestamp("date_reservation")));
-		reservation.setDateEcheance(new DateTime(resultSet.getTimestamp("date_echeance")));
+		reservation.setDateReservation(resultSet.getDate("date_reservation"));
+		reservation.setDateEcheance(resultSet.getDate("date_echeance"));
 		return reservation;
 	}
 	
