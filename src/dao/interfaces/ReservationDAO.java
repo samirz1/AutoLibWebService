@@ -7,8 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import beans.Client;
-import beans.Reservation;
+import beans.*;
 import dao.configuration.DaoFactory;
 import dao.utilitaire.UtilitaireBaseDonnee;
 import dao.utilitaire.UtilitaireMapping;
@@ -79,13 +78,11 @@ public class ReservationDAO extends DAO<Reservation> {
 				String sql = "DELETE FROM " + TABLE
 						+ " WHERE vehicule "  + " = '" + objet.getVehicule().getIdVehicule() + "'"
 						+ " AND client "  + " = '" + objet.getClient().getIdClient() + "'";
-				System.out.println("sql :"+sql);
 		try {
 			connexion = this.getDaoFactory().getConnection();
 			preparedStatement = UtilitaireBaseDonnee
 					.initialisationRequetePreparee(connexion, sql);
 			preparedStatement.executeUpdate();
-			System.out.println("ok");
 			return true;
 
 		} catch (SQLException e) {

@@ -2,8 +2,13 @@ package dao.utilitaire;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import beans.Borne;
 import beans.Client;
@@ -65,12 +70,18 @@ public class UtilitaireMapping {
 		return borne;
 	}
 	
-	public static Reservation mappingReservation(ResultSet resultSet) throws SQLException{
+	public static Reservation mappingReservation(ResultSet resultSet) throws SQLException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		Reservation reservation = new Reservation();
 		reservation.getVehicule().setIdVehicule(resultSet.getInt("vehicule"));
 		reservation.getClient().setIdClient(resultSet.getInt("client"));
-		reservation.setDateReservation(resultSet.getDate("date_reservation"));
-		reservation.setDateEcheance(resultSet.getDate("date_echeance"));
+		try {
+			reservation.setDateReservation(format.parse(resultSet.getString("date_reservation")));
+			reservation.setDateEcheance(format.parse(resultSet.getString("date_echeance")));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		return reservation;
 	}
 	

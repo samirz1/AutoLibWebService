@@ -10,11 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import beans.Client;
-import beans.MyBoolean;
-import beans.Reservation;
-import beans.Station;
-import beans.Vehicule;
+import beans.*;
 import dao.configuration.DaoFactory;
 
 @Path("/serviceReservation")
@@ -35,11 +31,9 @@ public class ServiceReservation {
 			@PathParam(value = "date_reservation") String date_reservation,
 			@PathParam(value = "date_echeance") String date_echeance) {
 
-		System.out.println("CREATION");
 		Reservation resa = new Reservation();
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		// System.out.println(nom + "   " + prenom + "   " + dateNaissance);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			Client c = new Client();
 			c.setIdClient(client);
@@ -54,8 +48,9 @@ public class ServiceReservation {
 			v = DaoFactory.getInstance().getVehiculeDAO().rechercher(v);
 			//
 			// RETROUVER TT LES INFOS VEHICULE
-			resa.setDateReservation(formatter.parse(date_reservation));
-			resa.setDateEcheance(formatter.parse(date_echeance));
+			// remarque : URLEncoder transforme les espaces en +
+			resa.setDateReservation(format.parse(date_reservation.replace('+', ' ')));
+			resa.setDateEcheance(format.parse(date_echeance.replace('+', ' ')));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +67,6 @@ public class ServiceReservation {
 			@PathParam(value = "date_reservation") String date_reservation,
 			@PathParam(value = "date_echeance") String date_echeance) {
 
-		System.out.println("MAJ");
 		Reservation resa = new Reservation();
 		Client c = new Client();
 		c.setIdClient(idClient);
@@ -81,16 +75,14 @@ public class ServiceReservation {
 		v.setIdVehicule(idVehicule);
 		resa.setVehicule(v);
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			resa.setDateReservation(formatter.parse(date_reservation));
-			resa.setDateEcheance(formatter.parse(date_echeance));
+			// remarque : URLEncoder transforme les espaces en +
+			resa.setDateReservation(format.parse(date_reservation.replace('+', ' ')));
+			resa.setDateEcheance(format.parse(date_echeance.replace('+', ' ')));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println(resa.getDateReservation());
-		System.out.println(resa.getDateEcheance());
 		
 		return (DaoFactory.getInstance().getReservationDAO().miseAjour(resa)) ? new MyBoolean(
 				true) : new MyBoolean(false);
@@ -102,14 +94,12 @@ public class ServiceReservation {
 	public MyBoolean supprimer(@PathParam(value = "vehicule") int idVehicule,
 			@PathParam(value = "client") int idClient
 			) {
-		System.out.println("SUP");
+
 		Reservation resa = new Reservation();
 		Client c = new Client();
 		c.setIdClient(idClient);
-		System.out.println(idClient);
 		Vehicule v = new Vehicule();
 		v.setIdVehicule(idVehicule);
-		System.out.println(idVehicule);
 		resa.setClient(c);
 		resa.setVehicule(v);
 		// client.setidClient(Integer.valueOf(idClient));
@@ -122,7 +112,7 @@ public class ServiceReservation {
 	@Produces(MediaType.APPLICATION_XML)
 	public Reservation rechercher(@PathParam(value = "vehicule") int idVehicule,
 			@PathParam(value = "client") int idClient) {
-		System.out.println("RECH");
+
 		Reservation res = new Reservation();
 		Client client = new Client();
 		client.setIdClient(idClient);
@@ -130,8 +120,7 @@ public class ServiceReservation {
 		Vehicule v = new Vehicule();
 		v.setIdVehicule(idVehicule);
 		res.setVehicule(v);
-		System.out.println("vlient "+idClient);
-		System.out.println("veh "+idVehicule);
+
 		return DaoFactory.getInstance().getReservationDAO().rechercher(res);
 	}
 
