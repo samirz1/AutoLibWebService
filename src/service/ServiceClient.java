@@ -98,5 +98,15 @@ public class ServiceClient {
 		return DaoFactory.getInstance().getClientDAO().rechercher(client);
 	
 	}
+	
+	@GET
+	@Path(value = "/rechercher/login/{login}")
+	@Produces(MediaType.APPLICATION_XML)
+	public Client rechercherLogin(@PathParam(value = "login") String login) {
+		Client client = new Client();
+		client.setLogin(login);
+		return DaoFactory.getInstance().getClientDAO().rechercherLogin(client);
+	
+	}
 
 }

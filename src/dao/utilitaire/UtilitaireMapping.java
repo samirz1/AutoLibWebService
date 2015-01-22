@@ -26,6 +26,8 @@ public class UtilitaireMapping {
 		client.setNom(resultSet.getString("nom"));
 		client.setPrenom(resultSet.getString("prenom"));
 		client.setDateNaissance(resultSet.getDate("date_naissance"));
+		client.setLogin(resultSet.getString("login"));
+		client.setPwd(resultSet.getString("pwd"));
 		return client;
 	}
 	
