@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import beans.Station;
@@ -204,6 +205,19 @@ public class StationDAO extends DAO<Station> {
 	@Override
 	public List<Station> toutRechercher() {
 		return rechercherMotCle(null);
+	}
+	
+	/**
+	 * HashMap indexée par les id des stations
+	 * @return
+	 */
+	public HashMap<Integer, Station> toHashMap() {
+		List<Station> stations = this.toutRechercher();
+		HashMap<Integer, Station> hash = new HashMap<Integer, Station>();
+		for(Station s : stations) {
+			hash.put(s.getIdStation(), s);
+		}
+		return hash;
 	}
 
 }
