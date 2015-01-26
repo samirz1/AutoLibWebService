@@ -62,7 +62,7 @@ public class BorneDAO extends DAO<Borne> {
 					.initialisationRequetePreparee(connexion, sql,
 							objet.getEtatBorne() == -1 ? 0 : objet.getEtatBorne(),
 							objet.getStation().getIdStation(),
-							objet.getVehicule().getIdVehicule() == 0 ? null : objet.getVehicule().getIdVehicule(),
+							(objet.getVehicule() == null || objet.getVehicule().getIdVehicule() == 0) ? null : objet.getVehicule().getIdVehicule(),
 							objet.getIdBorne());
 			preparedStatement.executeUpdate();
 			return true;

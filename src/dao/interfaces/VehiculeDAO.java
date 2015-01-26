@@ -59,7 +59,7 @@ public class VehiculeDAO extends DAO<Vehicule> {
 			e.printStackTrace();
 			return false;
 		}
-		//Affectation du véhicule à la borne
+		//Affectation du vï¿½hicule ï¿½ la borne
 		sql = new String("UPDATE Borne SET idVehicule = ? WHERE idBorne = ? ");
 		try {
 			preparedStatement = UtilitaireBaseDonnee
@@ -77,10 +77,12 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		// Etape 1 : Declarations
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Station station = null;
 		
-		String sql = new String("SELECT *  FROM Station WHERE idStation = ? ");
 		connection = this.getDaoFactory().getConnection();
+		/*
+		Station station = null;
+		sql = new String("SELECT *  FROM Station WHERE idStation = ? ");
+		
 		try {
 			preparedStatement = UtilitaireBaseDonnee
 					.initialisationRequetePreparee(connection, sql,objet.getStation());
@@ -94,8 +96,9 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		}
 		objet.setLatitude(station.getLatitude());
 		objet.setLongitude(station.getLongitude());
+		*/
 		//MAJ dans la table vehicule
-		sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
+		String sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
 				+ ", latitude = ? , longitude = ? , type_vehicule = ? "
 				+ "WHERE idVehicule = ?");
 		try {
@@ -220,7 +223,7 @@ public class VehiculeDAO extends DAO<Vehicule> {
 			e.printStackTrace();
 			return false;
 		}
-		//Ajout de la nouvelle affectation du véhicule à la borne
+		//Ajout de la nouvelle affectation du vï¿½hicule ï¿½ la borne
 		sql = new String("UPDATE Borne SET idVehicule = ? WHERE idBorne = ? ");
 		try {
 			preparedStatement = UtilitaireBaseDonnee

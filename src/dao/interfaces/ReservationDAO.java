@@ -113,6 +113,27 @@ public class ReservationDAO extends DAO<Reservation> {
 		}
 		return resa;
 	}
+	
+	public Reservation rechercherParClient(Reservation objet) {
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Reservation resa = null;
+		String sql = new String("SELECT * FROM reservation WHERE client = ? ");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql, objet.getClient().getIdClient());
+			resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+			resa = UtilitaireMapping.mappingReservation(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resa;
+	}
 
 	@Override
 	public List<Reservation> toutRechercher() {
