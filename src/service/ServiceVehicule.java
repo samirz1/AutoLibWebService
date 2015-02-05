@@ -19,7 +19,7 @@ public class ServiceVehicule {
 	@Path(value="/toutRechercher")
 	@Produces(MediaType.APPLICATION_XML)
 	public List<Vehicule> toutRechercher(){
-		System.out.println("Tout rechercher véhicule");
+		System.out.println("Tout rechercher vï¿½hicule");
 		 return DaoFactory.getInstance().getVehiculeDAO().toutRechercher();
 	}
 	
@@ -29,7 +29,7 @@ public class ServiceVehicule {
 	public Vehicule rechercher(@PathParam(value = "idVehicule") String idVehicule){
 		Vehicule vehicule = new Vehicule();
 		vehicule.setIdBorne(Integer.parseInt(idVehicule));
-		System.out.println("Rechercher véhicule");
+		System.out.println("Rechercher vï¿½hicule");
 		return DaoFactory.getInstance().getVehiculeDAO().rechercher(vehicule);
 	}
 	
@@ -39,7 +39,7 @@ public class ServiceVehicule {
 	public Vehicule rechercherVehiculeBorne(@PathParam(value = "idBorne") String idBorne){
 		Vehicule vehicule = new Vehicule();
 		vehicule.setIdBorne(Integer.parseInt(idBorne));
-		System.out.println("Rechercher véhicule borne");
+		System.out.println("Rechercher vï¿½hicule borne");
 		return DaoFactory.getInstance().getVehiculeDAO().rechercherVehiculeBorne(vehicule);
 	}
 	
@@ -50,7 +50,7 @@ public class ServiceVehicule {
 	public MyBoolean creation(@PathParam(value = "type_vehicule") String type_vehicule,
 			@PathParam(value = "station") String station,
 			@PathParam(value = "idBorne") String idBorne) {
-		System.out.println("Création véhicule");
+		System.out.println("Crï¿½ation vï¿½hicule");
 		Vehicule vehicule = new Vehicule();
 		vehicule.setTypeVehicule(Integer.parseInt(type_vehicule));
 		vehicule.setStation(Integer.parseInt(station));
@@ -70,7 +70,7 @@ public class ServiceVehicule {
 			@PathParam(value = "etatBatterie") String etatBatterie,
 			@PathParam(value = "Disponibilite") String Disponibilite,
 			@PathParam(value = "type_vehicule") String type_vehicule) {
-		System.out.println("MAJ véhicule");
+		System.out.println("MAJ vï¿½hicule");
 		Vehicule vehicule = new Vehicule();
 		//On met a jour l'affectation a la borne si besoin
 		if(Integer.parseInt(nouveauIdBorne) != Integer.parseInt(ancienIdBorne)){
@@ -92,7 +92,7 @@ public class ServiceVehicule {
 	@Path(value = "/supprimer/{idVehicule}")
 	@Produces(MediaType.APPLICATION_XML)
 	public MyBoolean supprimer(@PathParam(value = "idVehicule") String idVehicule) {
-		System.out.println("Suppression véhicule");
+		System.out.println("Suppression vï¿½hicule");
 		Vehicule vehicule = new Vehicule();
 		vehicule.setIdVehicule(Integer.parseInt(idVehicule));
 		return (DaoFactory.getInstance().getVehiculeDAO().supprimer(vehicule)) ? new MyBoolean(

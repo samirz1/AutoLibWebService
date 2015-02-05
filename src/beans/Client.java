@@ -16,6 +16,8 @@ public class Client implements Serializable {
 	private String nom;
 	private String prenom;
 	private Date dateNaissance;
+	private String login;
+	private String pwd;
 
 	// *******************************************
 	// CONSTRUCTEUR
@@ -58,4 +60,21 @@ public class Client implements Serializable {
 	public void setDateNaissance(Date dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+	
 }

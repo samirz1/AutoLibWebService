@@ -1,6 +1,8 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,12 +20,15 @@ public class Station implements Serializable {
 	private Integer numero;
 	private String ville;
 	private Integer codePostal;
+	
+	private List<Borne> bornes;
 
 	// *******************************************
 	// CONSTRUCTEUR
 	// *******************************************
 	public Station() {
 		super();
+		this.bornes = new ArrayList<Borne>();
 	}
 
 	// *******************************************
@@ -85,4 +90,24 @@ public class Station implements Serializable {
 		this.codePostal = codePostal;
 	}
 
+	public List<Borne> getBornes() {
+		return bornes;
+	}
+
+	public void setBornes(List<Borne> bornes) {
+		this.bornes = bornes;
+	}
+
+	public void addBorne(Borne b) {
+		this.bornes.add(b);
+	}
+	
+	public void removeBorne(int index) {
+		this.bornes.remove(index);
+	}
+	
+	public Borne getBorne(int index) {
+		return this.bornes.get(index);
+	}
+	
 }

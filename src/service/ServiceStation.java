@@ -1,5 +1,7 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.*;
@@ -18,6 +20,23 @@ public class ServiceStation {
 		List<Station> stations = DaoFactory.getInstance().getStationDAO().toutRechercher();
 		//System.out.println("Stations : " + stations.toString() + " - " + stations.size());
 		return stations;
+	}
+	
+	/**
+	 * Récupérer toutes les stations et leur bornes respectives
+	 * @return
+	 */
+	@GET
+	@Path(value="/toutRechercherComplet")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Station> toutRechercherComplet(){
+		HashMap<Integer, Station> stations = DaoFactory.getInstance().getStationDAO().toHashMap();
+		List<Borne> bornes = DaoFactory.getInstance().getBorneDAO().toutRechercher();
+		for(Borne borne : bornes) {
+			int idStation = borne.getStation().getIdStation();
+			stations.get(idStation).addBorne(borne);
+		}
+		return new ArrayList<Station>(stations.values());
 	}
 	
 	@GET

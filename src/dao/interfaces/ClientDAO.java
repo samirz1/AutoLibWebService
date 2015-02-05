@@ -108,6 +108,28 @@ public class ClientDAO extends DAO<Client> {
 		}
 		return client;
 	}
+	
+	public Client rechercherLogin(Client objet) {
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Client client = null;
+		String sql = new String("SELECT * FROM client WHERE login = ?");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,
+							objet.getLogin());
+			resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+			client = UtilitaireMapping.mappingClient(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return client;
+	}
 
 	@Override
 	public List<Client> toutRechercher() {

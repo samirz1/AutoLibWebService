@@ -7,8 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import beans.Client;
-import beans.Reservation;
+import beans.*;
 import dao.configuration.DaoFactory;
 import dao.utilitaire.UtilitaireBaseDonnee;
 import dao.utilitaire.UtilitaireMapping;
@@ -79,13 +78,11 @@ public class ReservationDAO extends DAO<Reservation> {
 				String sql = "DELETE FROM " + TABLE
 						+ " WHERE vehicule "  + " = '" + objet.getVehicule().getIdVehicule() + "'"
 						+ " AND client "  + " = '" + objet.getClient().getIdClient() + "'";
-				System.out.println("sql :"+sql);
 		try {
 			connexion = this.getDaoFactory().getConnection();
 			preparedStatement = UtilitaireBaseDonnee
 					.initialisationRequetePreparee(connexion, sql);
 			preparedStatement.executeUpdate();
-			System.out.println("ok");
 			return true;
 
 		} catch (SQLException e) {
@@ -108,6 +105,27 @@ public class ReservationDAO extends DAO<Reservation> {
 			preparedStatement = UtilitaireBaseDonnee
 					.initialisationRequetePreparee(connection, sql,objet.getVehicule().getIdVehicule(),
 							objet.getClient().getIdClient());
+			resultSet = preparedStatement.executeQuery();
+			resultSet.next();
+			resa = UtilitaireMapping.mappingReservation(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resa;
+	}
+	
+	public Reservation rechercherParClient(Reservation objet) {
+		// Etape 1 : Declarations
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Reservation resa = null;
+		String sql = new String("SELECT * FROM reservation WHERE client = ? ");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql, objet.getClient().getIdClient());
 			resultSet = preparedStatement.executeQuery();
 			resultSet.next();
 			resa = UtilitaireMapping.mappingReservation(resultSet);
