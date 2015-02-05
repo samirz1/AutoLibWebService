@@ -20,14 +20,14 @@ public class ClientDAO extends DAO<Client> {
 
 	@Override
 	public Boolean creation(Client objet) {
-		System.out.println("CREATION");
+
 		// Etape 1 : Declarations
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		int resultat = 0;
 		String sql = new String(
-				"INSERT INTO Client(nom, prenom, date_naissance) "
-						+ " VALUES(?,?,?)");
+				"INSERT INTO Client(nom, prenom, date_naissance, login, pwd) "
+						+ " VALUES(?,?,?,?,?)");
 		System.out.println(sql);
 		// Etape 2 : Preparation et execution
 		connection = this.getDaoFactory().getConnection();
@@ -35,7 +35,9 @@ public class ClientDAO extends DAO<Client> {
 			preparedStatement = UtilitaireBaseDonnee
 					.initialisationRequetePreparee(connection, sql,
 							objet.getNom(), objet.getPrenom(),
-							objet.getDateNaissance());
+							objet.getDateNaissance(),
+							objet.getLogin(),
+							objet.getPwd());
 			resultat = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -139,7 +141,7 @@ public class ClientDAO extends DAO<Client> {
 		ResultSet resultSet = null;
 		Client client = null;
 		List<Client> listeClients = new ArrayList<Client>();
-		String sql = new String("SELECT *  FROM Client");
+		String sql = new String("SELECT *  FROM Client ORDER BY nom, prenom");
 		// Etape 2 : Preparation et execution
 		connection = this.getDaoFactory().getConnection();
 		try {

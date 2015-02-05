@@ -32,41 +32,46 @@ public class ServiceClient {
 	}
 
 	@GET
-	@Path(value = "/creation/{nom}/{prenom}/{dateNaissance}")
+	@Path(value = "/creation/{nom}/{prenom}/{dateNaissance}/{login}/{pwd}")
 	@Produces(MediaType.APPLICATION_XML)
 	public MyBoolean creation(@PathParam(value = "nom") String nom,
 			@PathParam(value = "prenom") String prenom,
-			@PathParam(value = "dateNaissance") String dateNaissance) {
-		System.out.println("CREATION");
+			@PathParam(value = "dateNaissance") String dateNaissance,
+			@PathParam(value = "login") String login,
+			@PathParam(value = "pwd") String pwd) {
+
 		Client client = new Client();
 		client.setNom(nom);
 		client.setPrenom(prenom);
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		System.out.println(nom + "   " + prenom + "   " + dateNaissance);
+		client.setLogin(login);
+		client.setPwd(pwd);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			client.setDateNaissance(formatter.parse(dateNaissance));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println(client.getNom() + "    " + client.getPrenom()
-				+ "     " + client.getDateNaissance());
 		return (DaoFactory.getInstance().getClientDAO().creation(client)) ? new MyBoolean(
 				true) : new MyBoolean(false);
 	}
 
 	@GET
-	@Path(value = "/modifier/{idClient}/{nom}/{prenom}/{dateNaissance}")
+	@Path(value = "/modifier/{idClient}/{nom}/{prenom}/{dateNaissance}/{login}/{pwd}")
 	@Produces(MediaType.APPLICATION_XML)
 	public MyBoolean modifier(@PathParam(value = "idClient") String idClient,
 			@PathParam(value = "nom") String nom,
 			@PathParam(value = "prenom") String prenom,
-			@PathParam(value = "dateNaissance") String dateNaissance) {
-		System.out.println("MAJ");
+			@PathParam(value = "dateNaissance") String dateNaissance,
+			@PathParam(value = "login") String login,
+			@PathParam(value = "pwd") String pwd) {
+
 		Client client = new Client();
 		client.setIdClient(Integer.valueOf(idClient));
 		client.setNom(nom);
 		client.setPrenom(prenom);
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		client.setLogin(login);
+		client.setPwd(pwd);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			client.setDateNaissance(formatter.parse(dateNaissance));
 		} catch (ParseException e) {
