@@ -79,41 +79,63 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		PreparedStatement preparedStatement = null;
 		
 		connection = this.getDaoFactory().getConnection();
-		
+		String sql = "";
 		Station station = null;
-		String sql = new String("SELECT *  FROM Station WHERE idStation = ? ");
-		
-		try {
-			preparedStatement = UtilitaireBaseDonnee
-					.initialisationRequetePreparee(connection, sql,objet.getStation());
-			ResultSet resultSetStation = preparedStatement.executeQuery();
-			while (resultSetStation.next()) {
-				station = UtilitaireMapping.mappingStation(resultSetStation);
+		if(objet.getStation()>0){
+			sql = new String("SELECT *  FROM Station WHERE idStation = ? ");
+			
+			try {
+				preparedStatement = UtilitaireBaseDonnee
+						.initialisationRequetePreparee(connection, sql,objet.getStation());
+				ResultSet resultSetStation = preparedStatement.executeQuery();
+				while (resultSetStation.next()) {
+					station = UtilitaireMapping.mappingStation(resultSetStation);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+			objet.setLatitude(station.getLatitude());
+			objet.setLongitude(station.getLongitude());
+			
+			//MAJ dans la table vehicule
+			 sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
+					+ ", latitude = ? , longitude = ? , type_vehicule = ? "
+					+ "WHERE idVehicule = ?");
+			try {
+				preparedStatement = UtilitaireBaseDonnee
+						.initialisationRequetePreparee(connection, sql,objet.getRfid(),objet.getEtatBatterie(),
+								objet.getDisponible(),objet.getLatitude(),objet.getLongitude(),objet.getTypeVehicule(),
+								objet.getIdVehicule());
+				preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println(sql);
+				e.printStackTrace();
+				return false;
+			}
+			
+			return true;
+		}else{
+			//MAJ dans la table vehicule
+			 sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
+					+ ", type_vehicule = ? "
+					+ "WHERE idVehicule = ?");
+			try {
+				preparedStatement = UtilitaireBaseDonnee
+						.initialisationRequetePreparee(connection, sql,objet.getRfid(),objet.getEtatBatterie(),
+								objet.getDisponible(),objet.getTypeVehicule(),
+								objet.getIdVehicule());
+				preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println(sql);
+				e.printStackTrace();
+				return false;
+			}
+			
+			return true;
 		}
-		objet.setLatitude(station.getLatitude());
-		objet.setLongitude(station.getLongitude());
 		
-		//MAJ dans la table vehicule
-		 sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
-				+ ", latitude = ? , longitude = ? , type_vehicule = ? "
-				+ "WHERE idVehicule = ?");
-		try {
-			preparedStatement = UtilitaireBaseDonnee
-					.initialisationRequetePreparee(connection, sql,objet.getRfid(),objet.getEtatBatterie(),
-							objet.getDisponible(),objet.getLatitude(),objet.getLongitude(),objet.getTypeVehicule(),
-							objet.getIdVehicule());
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println(sql);
-			e.printStackTrace();
-			return false;
-		}
 		
-		return true;
 	}
 
 	@Override
