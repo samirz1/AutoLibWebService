@@ -28,8 +28,8 @@ public class ServiceVehicule {
 	@Produces(MediaType.APPLICATION_XML)
 	public Vehicule rechercher(@PathParam(value = "idVehicule") String idVehicule){
 		Vehicule vehicule = new Vehicule();
-		vehicule.setIdBorne(Integer.parseInt(idVehicule));
-		System.out.println("Rechercher v�hicule");
+		vehicule.setIdVehicule(Integer.parseInt(idVehicule));
+		System.out.println("Rechercher v�hicule" + idVehicule);
 		return DaoFactory.getInstance().getVehiculeDAO().rechercher(vehicule);
 	}
 	

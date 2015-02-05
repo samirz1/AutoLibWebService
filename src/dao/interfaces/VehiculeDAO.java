@@ -79,9 +79,9 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		PreparedStatement preparedStatement = null;
 		
 		connection = this.getDaoFactory().getConnection();
-		/*
+		
 		Station station = null;
-		sql = new String("SELECT *  FROM Station WHERE idStation = ? ");
+		String sql = new String("SELECT *  FROM Station WHERE idStation = ? ");
 		
 		try {
 			preparedStatement = UtilitaireBaseDonnee
@@ -96,9 +96,9 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		}
 		objet.setLatitude(station.getLatitude());
 		objet.setLongitude(station.getLongitude());
-		*/
+		
 		//MAJ dans la table vehicule
-		String sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
+		 sql = new String("UPDATE Vehicule SET RFID = ? , etatBatterie = ? , Disponibilite = ? "
 				+ ", latitude = ? , longitude = ? , type_vehicule = ? "
 				+ "WHERE idVehicule = ?");
 		try {
@@ -122,7 +122,18 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		int resultat = 0;
-		String sql = new String("DELETE FROM vehicule WHERE idVehicule = ?");
+		String sql = new String("UPDATE Borne SET idVehicule = null WHERE idVehicule = ?");
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,
+							objet.getIdVehicule());
+			resultat = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		sql = new String("DELETE FROM vehicule WHERE idVehicule = ?");
 		// Etape 2 : Preparation et execution
 		connection = this.getDaoFactory().getConnection();
 		try {
@@ -167,7 +178,7 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		ResultSet resultSet = null;
 		Vehicule vehicule = null;
 		List<Vehicule> vehicules = new ArrayList<Vehicule>();
-		String sql = new String("SELECT *  FROM Vehicule");
+		String sql = new String("SELECT V.idVehicule,	RFID, etatBatterie, Disponibilite, latitude ,longitude,type_vehicule,idBorne,station  FROM Vehicule V LEFT JOIN Borne ON V.idVehicule = Borne.idVehicule");
 		// Etape 2 : Preparation et execution
 		connection = this.getDaoFactory().getConnection();
 		try {
@@ -177,6 +188,8 @@ public class VehiculeDAO extends DAO<Vehicule> {
 			// Etape 3 : Récuperation du resultat
 			while (resultSet.next()) {
 				vehicule = UtilitaireMapping.mappingVehicule(resultSet);
+				vehicule.setIdBorne(resultSet.getInt("idBorne"));
+				vehicule.setStation(resultSet.getInt("station"));
 				vehicules.add(vehicule);
 			}
 		} catch (SQLException e) {
@@ -206,6 +219,24 @@ public class VehiculeDAO extends DAO<Vehicule> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		
+		sql = "SELECT *  FROM Borne WHERE idVehicule = ?";
+		// Etape 2 : Preparation et execution
+		connection = this.getDaoFactory().getConnection();
+		try {
+			preparedStatement = UtilitaireBaseDonnee
+					.initialisationRequetePreparee(connection, sql,objet.getIdVehicule());
+			resultSet = preparedStatement.executeQuery();
+			// Etape 3 : Récuperation du resultat
+			while (resultSet.next()) {
+				vehicule.setIdBorne(resultSet.getInt("idBorne"));
+				vehicule.setStation(resultSet.getInt("station"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return vehicule;
 	}
 	
